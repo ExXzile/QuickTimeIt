@@ -4,13 +4,13 @@
 *without interrupting or breaking course of a code run.*
 
 #### installation:
-- save QuickTimeIt.py file in a same directory as your code file
+- save QuickTimeit.py file in a same directory as your code file
 - or
 - in Python modules instalation Path for quick access anytime
 
 #### making it work:
 - import to your code:
-  - __from QuickTimeIt import quick_timeit__
+  - __from QuickTimeit import quick_timeit__
 
 - place quick_timeit() as a @decorator above any function in your code
   - __@quick_timeit()__
