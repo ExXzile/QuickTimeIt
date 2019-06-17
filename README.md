@@ -12,11 +12,14 @@
 - import to your code:
   - __from QuickTimeIt import quick_timeit__
 
-- place QuickTimeIt() as a @decorator above any function
-  - __@QuickTimeIt()__
+- place quick_timeit() as a @decorator above any function
+  - __@quick_timeit()__
 
-- add args (_Optional_)
+- add args to @decorator (_Optional_)
   - __(runs=100000, timing='milli', repeat=3)__ 
+
+- in order for TimeIt to compute, your func must be 'called' with relevant args, if any.
+- @decorator can be placed on multiple funcs at the same time
   
   
 #### example:
