@@ -1,13 +1,11 @@
-from QuickTimeit import quick_timeit
 
+from QuickTimeit import quick_timeit
 
 @quick_timeit(runs=1000, repeat=3, timing='milli')
 def beaufort_cipher_mathematical(m, key):
 
     u = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_'
-
     key = (key * (int(len(m) / len(key) + 1)))[0: len(m)]
-
     answr = [u[(u.index(k) - u.index(m))] for m, k in zip(m, key)]
 
     return ''.join(answr)
