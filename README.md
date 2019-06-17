@@ -12,14 +12,17 @@
 - import to your code:
   - __from QuickTimeIt import quick_timeit__
 
-- place quick_timeit() as a @decorator above any function
+- place quick_timeit() as a @decorator above any function in your code
   - __@quick_timeit()__
 
 - add args to @decorator (_Optional_)
   - __(runs=100000, timing='milli', repeat=3)__ 
 
 - in order for TimeIt to compute, your func must be 'called' with relevant args, if any.
-- @decorator can be placed on multiple funcs at the same time
+
+- @decorator can be placed on multiple funcs at once
+
+- __quick_timeit()__ acts as a wrapper and your code/programm will continue run as intended without it
   
   
 #### example:
