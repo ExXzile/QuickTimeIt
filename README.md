@@ -1,3 +1,3 @@
 # QuickTimeIt
 
-functions wrapper for a quick python Timeit reports
+functions wrapper for a quick Python 'Timeit' reports
