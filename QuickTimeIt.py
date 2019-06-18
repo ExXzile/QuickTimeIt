@@ -16,7 +16,7 @@ def quick_timeit(runs=10000, repeat=5, timing='sec'):
             if timing not in time_dic.keys()\
                     or type(runs) != int\
                     or type(repeat) != int:
-                print('\n - Invalid QuickTimeit() args!')
+                print('\n - Invalid QuickTimeIt() args!')
                 print(' - timing Aborted!')
                 print('----------------------------------\n')
                 return func(*args, **kwargs)
@@ -35,7 +35,7 @@ def quick_timeit(runs=10000, repeat=5, timing='sec'):
             results_gen = (f'  {run}: - {mes*time_dic[timing][0]:.12f}'
                            for run, mes in enumerate(t, 1))
 
-            print('\n- QuickTimeit():')
+            print('\n- QuickTimeIt():')
             print('--------------------------------------------')
             print(f'timing func    :  <{func.__name__}> | repeat = {repeat}')
             print(f'*args/**kwargs :  ({argsakwargs})')

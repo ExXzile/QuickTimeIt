@@ -4,13 +4,13 @@
 *without interrupting or breaking course of a code run.*
 
 #### installation:
-- save QuickTimeit.py file in a same directory as your code file
+- save QuickTimeIt.py file in a same directory as your code file
 - or
 - in Python modules instalation Path for quick access anytime
 
 #### making it work:
 - import to your code:
-  - __from QuickTimeit import quick_timeit__
+  - __from QuickTimeIt import quick_timeit__
 
 - place quick_timeit() as a @decorator above any function in your code
   - __@quick_timeit()__
@@ -31,7 +31,7 @@
   
 #### example:
 
-	from QuickTimeit import quick_timeit
+	from QuickTimeIt import quick_timeit
 
 	@quick_timeit(runs=100, repeat=3, timing='milli')  # -> QuickTimeIt @decorator with optional args
 	def beaufort_cipher_mathematical(m, key):
