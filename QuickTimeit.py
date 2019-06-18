@@ -23,7 +23,7 @@ def quick_timeit(runs=10000, repeat=5, timing='sec'):
             # ----------------------------------------------------------
 
             f_args = [repr(a) for a in args]
-            f_kwargs = [f'{k}={v}' for k, v in kwargs.items()]
+            f_kwargs = [f'{k}={repr(v)}' for k, v in kwargs.items()]
             argsakwargs = ', '.join(f_args + f_kwargs)
 
             t = timeit.repeat(
