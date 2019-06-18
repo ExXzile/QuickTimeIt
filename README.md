@@ -26,7 +26,7 @@
 
 - __@quick_timeit()__ will execute every time @decorated function is called:
 	- _for presentability, avoid adding to frequently called or reacurring functions_
-	- _given it's nature, will execute for every next() call from 'generator' functions__ 
+	- _given it's nature, will execute for every next() call from 'generator' functions_ 
   
   
 #### example:
