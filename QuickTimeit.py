@@ -35,7 +35,7 @@ def quick_timeit(runs=10000, repeat=5, timing='sec'):
             results_gen = (f'  {run}: - {mes*time_dic[timing][0]:.12f}'
                            for run, mes in enumerate(t, 1))
 
-            print('\n- QuickTimeIt():')
+            print('\n- QuickTimeit():')
             print('--------------------------------------------')
             print(f'timing func    :  <{func.__name__}> | repeat = {repeat}')
             print(f'*args/**kwargs :  ({argsakwargs})')
