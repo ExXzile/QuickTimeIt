@@ -20,7 +20,7 @@
 
 - in order for TimeIt to compute, your func must be 'called' with relevant args, if any.
 
-- __@quick_timeit() can be placed on multiple funcs at once
+- __@quick_timeit()__ can be placed on multiple funcs at once
 
 - __@quick_timeit()__ acts as a wrapper and your code/programm will continue run as intended without it
 
