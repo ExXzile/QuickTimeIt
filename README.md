@@ -26,8 +26,11 @@
 
 - __@quick_timeit()__ will execute every time @decorated function is called:
 	- _for presentability, avoid adding to frequently called or reacurring functions_
-	- _given it's nature, will execute for every next() call from 'generator' functions_ 
-  
+	- _given it's nature, will execute for every next() call from 'generator' functions_
+
+#### warning:
+- _to avoid unpredictable behaivour, avoid using with 'side-effect' functions_
+	- _i.e functions with **global** declarations_.
   
 #### example:
 
@@ -42,13 +45,13 @@
 		return ''.join(answr)
 
 
-#### optinal args
+#### optinal args:
 - runs = how many runs of a func -> integer
 - repeat = how many times to repeat runs -> integer
 - timing = 'sec', 'milli', 'nano' -> string
   - respectively seconds, milliseconds, nanosecons
 
-#### defauls
+#### defauls:
 - runs=1000
 - repeat=5
 - timing='sec'
