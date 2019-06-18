@@ -20,9 +20,12 @@
 
 - in order for TimeIt to compute, your func must be 'called' with relevant args, if any.
 
-- @decorator can be placed on multiple funcs at once
+- __@quick_timeit()__ can be placed on multiple funcs at once
 
-- __quick_timeit()__ acts as a wrapper and your code/programm will continue run as intended without it
+- __@quick_timeit()__ acts as a wrapper and your code/programm will continue run as intended without it
+
+- __@quick_timeit()__ will execute every time @decorated function is called:
+	- _for presentability, avoid adding to frequently called or reacurring functions_
   
   
 #### example:
