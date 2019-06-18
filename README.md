@@ -26,13 +26,14 @@
 
 - __@quick_timeit()__ will execute every time @decorated function is called:
 	- _for presentability, avoid adding to frequently called or reacurring functions_
+	- _given it's nature, will execute for every next() call from 'generator' functions_ 
   
   
 #### example:
 
 	from QuickTimeit import quick_timeit
 
-	@quick_timeit(runs=100, repeat=3, timing='milli')  # -> QuickTimeIt @decorator with optinal args
+	@quick_timeit(runs=100, repeat=3, timing='milli')  # -> QuickTimeIt @decorator with optional args
 	def beaufort_cipher_mathematical(m, key):
 		u = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_'
 		key = (key * (int(len(m) / len(key) + 1)))[0: len(m)]
