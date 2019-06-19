@@ -54,8 +54,7 @@
   - respectively seconds, milliseconds, nanosecons
 - file= if specified, log will be written to file -> string
 - overwrite= if False will append specified file instead of overwriting -> boolean
-  - if overwrite=True and func is called more than once, log entry will be overwritten on every call
-  - if overwrite=True and multiple functions are tested in a same code, last function called will overwrite log
+ 
 
 #### defauls:
 - runs=10000
