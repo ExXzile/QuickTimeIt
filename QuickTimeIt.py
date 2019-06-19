@@ -1,8 +1,9 @@
 import timeit
 import logging
+import datetime
 
 
-def quick_timeit(runs=10000, repeat=5, timing='sec', file='', overwrite=True):
+def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False, overwrite=True):
     def arg_wrap(func):
         def wrapper(*args, **kwargs):
 
@@ -14,11 +15,11 @@ def quick_timeit(runs=10000, repeat=5, timing='sec', file='', overwrite=True):
             logging.basicConfig(format='%(message)s', level=logging.DEBUG)
 
             syntax_error = (
-                f'\n- QuickTimeIt() - Invalid quick_timeit() kwargs! '
-                f'\nfunc : <{func.__name__}> - timing Aborted!\n'
+                f'\n- QuickTimeIt() - Invalid quick_timeit() kwarg(s)! '
+                f'\nfunc : <{func.__name__}> - timing Aborted!'
+                f'\n--- Invalid kwarg(s): --'
             )
 
-            kwarg_error = ' --- Invalid operand(s), **kwarg(s): --'
             op_error = []
             if not isinstance(runs, int):
                 op_error.append(f'runs={runs!r}')
@@ -26,22 +27,22 @@ def quick_timeit(runs=10000, repeat=5, timing='sec', file='', overwrite=True):
                 op_error.append(f'repeat={repeat!r}')
             if timing not in ['sec', 'milli', 'nano']:
                 op_error.append(f'timing={timing!r}')
-            if not isinstance(file, str):
-                op_error.append(f'file={file!r}')
+            if not isinstance(logfile, bool):
+                op_error.append(f'file={logfile!r}')
             if not isinstance(overwrite, bool):
                 op_error.append(f'overwrite={overwrite!r}')
 
-            if op_error:
-                logging.warning(syntax_error + kwarg_error + ', --'.join(op_error))
+            if op_error:  # if syntax error, return func, discontinue
+                logging.info(syntax_error + ', --'.join(op_error))
                 return func(*args, **kwargs)
 
-            if file:
+            if logfile:
                 mode = 'w' if overwrite else 'a'
                 for handler in logging.root.handlers[:]:
                     logging.root.removeHandler(handler)
                 logging.basicConfig(
                     format='%(message)s',
-                    filename=file,
+                    filename=f'{func.__name__}.QTimeIt.log',
                     filemode=mode,
                     level=logging.DEBUG
                 )
@@ -66,8 +67,10 @@ def quick_timeit(runs=10000, repeat=5, timing='sec', file='', overwrite=True):
             results_gen = (f'\n{run:>9}: - {mes*timing_dic[timing][0]:.12f}'
                            for run, mes in enumerate(time_rep, 1))
 
-            logging_msg += f'\n- QuickTimeIt():'\
-                           f'\n--------------------------------------------'\
+            logging_msg += f'\n- QuickTimeIt():  '
+            if logfile:
+                logging_msg += f'call at {datetime.datetime.now()}'
+            logging_msg += f'\n--------------------------------------------'\
                            f'\ntiming func    :  <{func.__name__}> | repeat = {repeat}'
 
             if len(all_args) > 120:
