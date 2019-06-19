@@ -2,7 +2,7 @@
 from QuickTimeIt import quick_timeit
 
 
-@quick_timeit(runs=1000, repeat=11, timing='milli')
+@quick_timeit()
 def beaufort_cipher_mathematical(m, key):
 
     u = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_'
@@ -12,7 +12,7 @@ def beaufort_cipher_mathematical(m, key):
     return ''.join(answr)
 
 
-@quick_timeit()
+@quick_timeit(runs=1000, repeat=9, timing='milli')
 def beaufort_cipher_manual(message, key):
 
     UPPERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_'
@@ -31,8 +31,16 @@ def beaufort_cipher_manual(message, key):
             if check[idx] == k:
                 answer += check[0]
                 break
-
     return answer
+
+
+@quick_timeit(runs=100, timing='nano', file='beaufort_manual.log', overwrite=False)
+def beaufort_cipher_itertools(message, key):
+    import itertools
+    import string
+
+    chars = list(string.ascii_uppercase) + ['_']
+    return ''.join(chars[chars.index(k) - chars.index(m)] for m, k in zip(message, itertools.cycle(key)))
 
 
 print(
@@ -44,6 +52,13 @@ print(
 
 print(
     beaufort_cipher_manual(
+        'N_PHW_AHXFVHTYKEAJSGEHWLMTD_KI_BFJJELOJL_ALAWIHWBKQNH',
+        'KNIGHTS_WHO_SAY_NI'
+    )
+)
+
+print(
+    beaufort_cipher_itertools(
         'N_PHW_AHXFVHTYKEAJSGEHWLMTD_KI_BFJJELOJL_ALAWIHWBKQNH',
         'KNIGHTS_WHO_SAY_NI'
     )
