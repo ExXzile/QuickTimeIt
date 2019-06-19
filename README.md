@@ -47,7 +47,7 @@
 		return ''.join(answr)
 
 
-#### optinal args:
+#### optional kwargs:
 - runs= how many runs of a func -> integer
 - repeat= how many times to repeat runs -> integer
 - timing= 'sec', 'milli', 'nano' -> string
