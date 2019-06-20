@@ -2,7 +2,7 @@
 from QuickTimeIt import quick_timeit
 
 
-@quick_timeit()
+@quick_timeit(logfile=True)
 def beaufort_cipher_mathematical(m, key):
 
     u = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_'
@@ -34,13 +34,14 @@ def beaufort_cipher_manual(message, key):
     return answer
 
 
-@quick_timeit(runs=100, timing='nano', file='beaufort_manual.log', overwrite=False)
+@quick_timeit(runs=100, timing='nano', logfile=True)
 def beaufort_cipher_itertools(message, key):
     import itertools
     import string
 
     chars = list(string.ascii_uppercase) + ['_']
-    return ''.join(chars[chars.index(k) - chars.index(m)] for m, k in zip(message, itertools.cycle(key)))
+    return ''.join(chars[chars.index(k) - chars.index(m)]
+                   for m, k in zip(message, itertools.cycle(key)))
 
 
 print(

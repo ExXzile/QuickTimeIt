@@ -3,16 +3,20 @@ import logging
 import datetime
 
 
-def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False, overwrite=True):
+def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False):
     def arg_wrap(func):
         def wrapper(*args, **kwargs):
 
-            # set-up and soft 'failsafe' -------------------------------
-            # tested func will continue as as normal
+            if logfile:
+                handler = logging.FileHandler(f'{func.__name__}.QTimeIt.log', mode='a')
+            else:
+                handler = logging.StreamHandler()
 
-            for handler in logging.root.handlers[:]:
-                logging.root.removeHandler(handler)
-            logging.basicConfig(format='%(message)s', level=logging.DEBUG)
+            formatter = logging.Formatter('%(message)s')
+            handler.setFormatter(formatter)
+            logger = logging.getLogger(f'{func.__name__}_QTimeIt')
+            logger.setLevel(level=logging.DEBUG)
+            logger.addHandler(handler)
 
             syntax_error = (
                 f'\n- QuickTimeIt() - Invalid quick_timeit() kwarg(s)! '
@@ -29,23 +33,12 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False, overwrite=Tru
                 op_error.append(f'timing={timing!r}')
             if not isinstance(logfile, bool):
                 op_error.append(f'file={logfile!r}')
-            if not isinstance(overwrite, bool):
-                op_error.append(f'overwrite={overwrite!r}')
 
             if op_error:  # if syntax error, return func, discontinue
-                logging.info(syntax_error + ', --'.join(op_error))
+                logger.info(syntax_error + ', --'.join(op_error))
+                logger.removeHandler(handler)
                 return func(*args, **kwargs)
 
-            if logfile:
-                mode = 'w' if overwrite else 'a'
-                for handler in logging.root.handlers[:]:
-                    logging.root.removeHandler(handler)
-                logging.basicConfig(
-                    format='%(message)s',
-                    filename=f'{func.__name__}.QTimeIt.log',
-                    filemode=mode,
-                    level=logging.DEBUG
-                )
             # ----------------------------------------------------------
 
             timing_dic = {
@@ -69,7 +62,7 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False, overwrite=Tru
 
             logging_msg += f'\n- QuickTimeIt():  '
             if logfile:
-                logging_msg += f'call at {datetime.datetime.now()}'
+                logging_msg += f'call logged at {datetime.datetime.now()}'
             logging_msg += f'\n--------------------------------------------'\
                            f'\ntiming func    :  <{func.__name__}> | repeat = {repeat}'
 
@@ -87,9 +80,10 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False, overwrite=Tru
                            f'{(sum(time_rep) / len(time_rep))*timing_dic[timing][0]:.12f} ' \
                            f'{timing_dic[timing][1]}\n'
 
-            logging_msg += '--------------------------------------------\n\n'
+            logging_msg += '--------------------------------------------'
 
-            logging.info(logging_msg)
+            logger.info(logging_msg)
+            logger.removeHandler(handler)
             return func(*args, **kwargs)
         return wrapper
     return arg_wrap
