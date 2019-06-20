@@ -1,6 +1,6 @@
 ## _Function(s) execution timer @decorator with args_
 
-*functions wrapper for a quick Python Built-in 'Timeit' modile reports*
+*functions wrapper for a quick Python Built-in 'Timeit' module reports*
 *without interrupting or breaking course of a code run.*
 
 #### installation:
@@ -16,7 +16,7 @@
   - __@quick_timeit()__
 
 - add args to @decorator (_Optional_)
-  - __(runs=100000, timing='milli', repeat=3, file='func_timeIt.log, overwrite=False)__ 
+  - __(runs=100000, timing='milli', repeat=3, logfile=True)__
 
 - in order for TimeIt to compute, your func must be 'called' with relevant args, if any.
 
@@ -25,10 +25,10 @@
 - __@quick_timeit()__ acts as a wrapper and your code/program/script will continue run as intended without it
 
 - __@quick_timeit()__ will execute every time @decorated function is called:
-	- _for presentability, avoid adding to frequently called or recurring functions_
+	- _for presentability, avoid adding to frequently called or recurring functions, unless logged to file_
 	- _given it's nature, will execute for every next() or otherwise call from 'generator' type functions_
 	- _as it is using logger mode in a separate thread (if log file not specified),
-	console STDOUT's may overlap with func outputs, if any_
+	console STDOUT's may overlap with func console outputs, if any_
 
 #### warning:
 - _to avoid unpredictable behaviour, avoid using with 'side-effect' functions_
@@ -56,8 +56,8 @@
   - separate log file will be created for each tested function
 
  
-#### defauls:
-- runs=10000
+#### defaults:
+- runs=1000
 - repeat=5
 - timing='sec'
 - logfile=None
