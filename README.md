@@ -12,8 +12,10 @@
 - import to your code:
   - __from QuickTimeIt import quick_timeit__
 
-- place quick_timeit() as a @decorator above any function in your code
+- place quick_timeit() as a @decorator above function in your code
   - __@quick_timeit()__
+  	- as of this release, only main code funcs can be tested i.e. QuickTimeIt @decorator
+	  will fail to execute when attempting to test funcs within classes or funcs nested within other funcs
 
 - add args to @decorator (_Optional_)
   - __(runs=100000, timing='milli', repeat=3, logfile=True)__
