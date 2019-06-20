@@ -12,9 +12,7 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False):
             else:
                 handler = logging.StreamHandler()
 
-            formatter = logging.Formatter('%(message)s')
-            handler.setFormatter(formatter)
-            logger = logging.getLogger(f'{func.__name__}_QTimeIt')
+            logger = logging.getLogger(__name__)
             logger.setLevel(level=logging.DEBUG)
             logger.addHandler(handler)
 
@@ -34,7 +32,7 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False):
             if not isinstance(logfile, bool):
                 op_error.append(f'file={logfile!r}')
 
-            if op_error:  # if syntax error, return func, discontinue
+            if op_error:  # if syntax error, return func and discontinue
                 logger.info(syntax_error + ', --'.join(op_error))
                 logger.removeHandler(handler)
                 return func(*args, **kwargs)
@@ -46,6 +44,7 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False):
                 'milli': (1000, 'millisecond'),
                 'nano': (10**9, 'nanosecond')
             }
+
             logging_msg = ''
             f_args = [repr(a) for a in args]
             f_kwargs = [f'{k}={repr(v)}' for k, v in kwargs.items()]
@@ -57,13 +56,13 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False):
                 repeat=repeat, number=runs
             )
 
-            results_gen = (f'\n{run:>9}: - {mes*timing_dic[timing][0]:.12f}'
-                           for run, mes in enumerate(time_rep, 1))
+            results_gen = (f'\n{run:>9}: - {measure*timing_dic[timing][0]:.12f}'
+                           for run, measure in enumerate(time_rep, 1))
 
             logging_msg += f'\n- QuickTimeIt():  '
             if logfile:
                 logging_msg += f'call logged at {datetime.datetime.now()}'
-            logging_msg += f'\n--------------------------------------------'\
+            logging_msg += '\n--------------------------------------------'\
                            f'\ntiming func    :  <{func.__name__}> | repeat = {repeat}'
 
             if len(all_args) > 120:
@@ -71,16 +70,15 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False):
             logging_msg += f'\n*args/**kwargs :  ({all_args})'\
                            f'\nnumber of runs :  {runs}'\
                            f'\nmeasurement    :  {timing_dic[timing][1]}'\
-                           f'\ncompleted in   :  \n'
+                           '\ncompleted in   :  \n'
 
             for result in results_gen:
                 logging_msg += result
 
             logging_msg += f'\n\n average: - ' \
                            f'{(sum(time_rep) / len(time_rep))*timing_dic[timing][0]:.12f} ' \
-                           f'{timing_dic[timing][1]}\n'
-
-            logging_msg += '--------------------------------------------'
+                           f'{timing_dic[timing][1]}\n'\
+                           '--------------------------------------------'
 
             logger.info(logging_msg)
             logger.removeHandler(handler)

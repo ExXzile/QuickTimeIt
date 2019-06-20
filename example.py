@@ -34,16 +34,6 @@ def beaufort_cipher_manual(message, key):
     return answer
 
 
-@quick_timeit(runs=100, timing='nano', logfile=True)
-def beaufort_cipher_itertools(message, key):
-    import itertools
-    import string
-
-    chars = list(string.ascii_uppercase) + ['_']
-    return ''.join(chars[chars.index(k) - chars.index(m)]
-                   for m, k in zip(message, itertools.cycle(key)))
-
-
 print(
     beaufort_cipher_mathematical(
         'N_PHW_AHXFVHTYKEAJSGEHWLMTD_KI_BFJJELOJL_ALAWIHWBKQNH',
@@ -53,13 +43,6 @@ print(
 
 print(
     beaufort_cipher_manual(
-        'N_PHW_AHXFVHTYKEAJSGEHWLMTD_KI_BFJJELOJL_ALAWIHWBKQNH',
-        'KNIGHTS_WHO_SAY_NI'
-    )
-)
-
-print(
-    beaufort_cipher_itertools(
         'N_PHW_AHXFVHTYKEAJSGEHWLMTD_KI_BFJJELOJL_ALAWIHWBKQNH',
         'KNIGHTS_WHO_SAY_NI'
     )
