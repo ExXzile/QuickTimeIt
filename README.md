@@ -47,13 +47,14 @@
 		return ''.join(answr)
 
 
-#### optinal args:
+#### optional kwargs:
 - runs= how many runs of a func -> integer
 - repeat= how many times to repeat runs -> integer
 - timing= 'sec', 'milli', 'nano' -> string
   - respectively seconds, milliseconds, nanosecons
 - file= if specified, log will be written to file -> string
-- overwrite= if set as False, will append specified file -> boolean
+- overwrite= if False will append specified file instead of overwriting -> boolean
+ 
 
 #### defauls:
 - runs=10000
