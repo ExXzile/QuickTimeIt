@@ -50,11 +50,9 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False):
             f_kwargs = [f'{k}={repr(v)}' for k, v in kwargs.items()]
             all_args = ', '.join(f_args + f_kwargs)
 
-            time_rep = timeit.repeat(
-                f'"{func.__name__}({all_args})"',
-                setup=f'from __main__ import {func.__name__}',
-                repeat=repeat, number=runs
-            )
+            time_rep = timeit.repeat(lambda: func(*args, **kwargs),
+                                     repeat=repeat,
+                                     number=runs)
 
             results_gen = (f'\n{run:>9}: - {measure*timing_dic[timing][0]:.12f}'
                            for run, measure in enumerate(time_rep, 1))
