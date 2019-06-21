@@ -7,20 +7,16 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False):
     def arg_wrap(func):
         def wrapper(*args, **kwargs):
 
-            if logfile:
-                handler = logging.FileHandler(f'{func.__name__}.QTimeIt.log', mode='a')
-            else:
-                handler = logging.StreamHandler()
-
+            # set-up and soft 'failsafe' abort -------------------------
             logger = logging.getLogger(__name__)
             logger.setLevel(level=logging.DEBUG)
+            if logfile:
+                handler = logging.FileHandler(
+                    f'{func.__name__}.QTimeIt.log', mode='a'
+                )
+            else:
+                handler = logging.StreamHandler()
             logger.addHandler(handler)
-
-            syntax_error = (
-                f'\n- QuickTimeIt() - Invalid quick_timeit() kwarg(s)! '
-                f'\nfunc : <{func.__name__}> - timing Aborted!'
-                f'\n--- Invalid kwarg(s): --'
-            )
 
             op_error = []
             if not isinstance(runs, int):
@@ -33,52 +29,58 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False):
                 op_error.append(f'file={logfile!r}')
 
             if op_error:  # if syntax error, return func and discontinue
-                logger.info(syntax_error + ', --'.join(op_error))
+                logger.info(
+                    f'\n- QuickTimeIt() - Invalid quick_timeit() kwarg(s)! '
+                    f'\nfunc : <{func.__name__}> - timing Aborted!'
+                    f'\n--- Invalid kwarg(s): --'
+                    + ', --'.join(op_error)
+                )
                 logger.removeHandler(handler)
                 return func(*args, **kwargs)
-
             # ----------------------------------------------------------
 
             timing_dic = {
-                'sec': (1, 'second'),
-                'milli': (1000, 'millisecond'),
-                'nano': (10**9, 'nanosecond')
+                'sec': (1, 'seconds'),
+                'milli': (1000, 'milliseconds'),
+                'nano': (10**9, 'nanoseconds')
             }
-
-            logging_msg = ''
-            f_args = [repr(a) for a in args]
-            f_kwargs = [f'{k}={repr(v)}' for k, v in kwargs.items()]
-            all_args = ', '.join(f_args + f_kwargs)
-
-            time_rep = timeit.repeat(lambda: func(*args, **kwargs),
-                                     repeat=repeat,
-                                     number=runs)
-
-            results_gen = (f'\n{run:>9}: - {measure*timing_dic[timing][0]:.12f}'
-                           for run, measure in enumerate(time_rep, 1))
-
-            logging_msg += f'\n- QuickTimeIt():  '
+            time_rep = timeit.repeat(
+                lambda: func(*args, **kwargs),
+                repeat=repeat, number=runs
+            )
+            logging_out = f'\n- QuickTimeIt():  '
             if logfile:
-                logging_msg += f'call logged at {datetime.datetime.now()}'
-            logging_msg += '\n--------------------------------------------'\
+                logging_out += f'call logged at {datetime.datetime.now()}'
+            logging_out += '\n--------------------------------------------'\
                            f'\ntiming func    :  <{func.__name__}> | repeat = {repeat}'
 
+            all_args = ', '.join(
+                [repr(a) for a in args]
+                + [f'{k}={repr(v)}' for k, v in kwargs.items()]
+            )
+
             if len(all_args) > 120:
-                all_args = str(all_args)[:120] + ' .... <truncated> ..'
-            logging_msg += f'\n*args/**kwargs :  ({all_args})'\
+                all_args = all_args[:120] + ' .... <truncated> ..'
+
+            logging_out += f'\n*args/**kwargs :  ({all_args})'\
                            f'\nnumber of runs :  {runs}'\
-                           f'\nmeasurement    :  {timing_dic[timing][1]}'\
+                           f'\nmeasure in     :  {timing_dic[timing][1]}'\
                            '\ncompleted in   :  \n'
 
-            for result in results_gen:
-                logging_msg += result
+            logging_out += ''.join(f'\n{run:>9}: - {measure*timing_dic[timing][0]:.12f} '
+                                   for run, measure in enumerate(time_rep, 1))
 
-            logging_msg += f'\n\n average: - ' \
-                           f'{(sum(time_rep) / len(time_rep))*timing_dic[timing][0]:.12f} ' \
-                           f'{timing_dic[timing][1]}\n'\
-                           '--------------------------------------------'
+            if repeat > 1:
+                logging_out += f'\n\n  fastest: - ' \
+                               f'{min(time_rep):.12f} {timing_dic[timing][1]}\n' \
+                               f'  average: - ' \
+                               f'{(sum(time_rep) / len(time_rep))*timing_dic[timing][0]:.12f} ' \
+                               f'{timing_dic[timing][1]}'
+            else:
+                logging_out += timing_dic[timing][1]
+            logging_out += '\n--------------------------------------------'
 
-            logger.info(logging_msg)
+            logger.info(logging_out)
             logger.removeHandler(handler)
             return func(*args, **kwargs)
         return wrapper
