@@ -6,7 +6,7 @@
 #### installation:
 - save QuickTimeIt.py file in a same directory as your code file
 - or
-- in Python modules installation Path for quick access anytime
+- in Python 'lib' installation Path for quick access anytime
 
 #### making it work:
 - import to your code:
