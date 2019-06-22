@@ -72,7 +72,7 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False):
 
             if repeat > 1:
                 logging_out += f'\n\n  fastest: - ' \
-                               f'{min(time_rep):.9f} {timing_dic[timing][1]}\n' \
+                               f'{min(time_rep)*timing_dic[timing][0]:.9f} {timing_dic[timing][1]}\n' \
                                f'  average: - ' \
                                f'{(sum(time_rep) / len(time_rep))*timing_dic[timing][0]:.9f} ' \
                                f'{timing_dic[timing][1]}'
