@@ -2,7 +2,7 @@
 from QuickTimeIt import quick_timeit
 
 
-@quick_timeit(logfile=True)
+@quick_timeit()
 def beaufort_cipher_mathematical(m, key):
 
     u = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_'
