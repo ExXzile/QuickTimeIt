@@ -32,7 +32,7 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False):
                 logger.info(
                     f'\n- QuickTimeIt() - Invalid quick_timeit() kwarg(s)! '
                     f'\nfunc : <{func.__name__}> - timing Aborted!'
-                    f'\n--- Invalid kwarg(s): --'
+                    f'\n--- kwarg(s) Syntax Error: --'
                     + ', --'.join(op_error)
                 )
                 logger.removeHandler(handler)
@@ -67,14 +67,14 @@ def quick_timeit(runs=1000, repeat=5, timing='sec', logfile=False):
                            f'\nmeasure in     :  {timing_dic[timing][1]}'\
                            '\ncompleted in   :  \n'
 
-            logging_out += ''.join(f'\n{run:>9}: - {measure*timing_dic[timing][0]:.12f} '
+            logging_out += ''.join(f'\n{run:>9}: - {measure*timing_dic[timing][0]:.9f} '
                                    for run, measure in enumerate(time_rep, 1))
 
             if repeat > 1:
                 logging_out += f'\n\n  fastest: - ' \
-                               f'{min(time_rep):.12f} {timing_dic[timing][1]}\n' \
+                               f'{min(time_rep):.9f} {timing_dic[timing][1]}\n' \
                                f'  average: - ' \
-                               f'{(sum(time_rep) / len(time_rep))*timing_dic[timing][0]:.12f} ' \
+                               f'{(sum(time_rep) / len(time_rep))*timing_dic[timing][0]:.9f} ' \
                                f'{timing_dic[timing][1]}'
             else:
                 logging_out += timing_dic[timing][1]
