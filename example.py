@@ -12,7 +12,7 @@ def beaufort_cipher_mathematical(m, key):
     return ''.join(answr)
 
 
-@quick_timeit(runs=1000, repeat=9, timing='milli')
+@quick_timeit(runs=100, repeat=9, timing='milli', logfile=True)
 def beaufort_cipher_manual(message, key):
 
     UPPERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_'
